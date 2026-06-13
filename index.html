@@ -10,19 +10,16 @@
   <p id="result">Not tested yet</p>
   <script>
     const APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbzhKPrjrG3c7y-rsd3Zsi_VdxR2xAmfUojY72MluXxpNpMmweYbvrm6ECyXJiCVoQsN8g/exec;
+    
     function testAuth() {
       document.getElementById('result').textContent = 'Testing...';
-      fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        credentials: 'include'
-      })
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById('result').textContent = JSON.stringify(data);
-      })
-      .catch(err => {
-        document.getElementById('result').textContent = 'Error: ' + err.message;
-      });
+      const script = document.createElement('script');
+      script.src = APPS_SCRIPT_URL + '?callback=handleResponse&action=authTest';
+      document.body.appendChild(script);
+    }
+    
+    function handleResponse(data) {
+      document.getElementById('result').textContent = JSON.stringify(data);
     }
   </script>
 </body>
